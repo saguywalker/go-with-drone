@@ -7,7 +7,7 @@ platform:
 
 steps:
 - name: format
-  image: golang:latest
+  image: golang
   commands:
   - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
   - eval $(ssh-agent -s)
@@ -21,7 +21,7 @@ steps:
   - "go vet $(go list ./... | grep -v /vendor/)"
 
 - name: test-func
-  image: golang:latest
+  image: golang
   commands:
   - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
   - eval $(ssh-agent -s)
@@ -43,7 +43,7 @@ platform:
 
 steps:
 - name: compile
-  image: golang:latest
+  image: golang
   commands:
   - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
   - eval $(ssh-agent -s)
@@ -68,7 +68,7 @@ platform:
 
 steps:
 - name: commit-output
-  image: golang:latest
+  image: golang
   commands:
   - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
   - eval $(ssh-agent -s)
@@ -90,7 +90,7 @@ steps:
   - git push origin HEAD:master
 
 - name: run
-  image: golang:latest
+  image: golang
   commands:
   - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
   - eval $(ssh-agent -s)
