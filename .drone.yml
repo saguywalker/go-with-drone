@@ -1,62 +1,35 @@
 kind: pipeline
-name: test
+name: default
 
 workspace:
-    base: /go
-    path: src/github.com/saguywalker/go-with-drone
+  base: /go
+  path: src/github.com/saguywalker/go-with-drone
 
 steps:
-- name: format
-  image: golang
-  commands:
-    - go fmt $(go list ./... | grep -v /vendor/)
-    - go vet $(go list ./... | grep -v /vendor/)
+  - name: format
+    image: golang
+    commands:
+      - go fmt $(go list ./... | grep -v /vendor/)
+      - go vet $(go list ./... | grep -v /vendor/)
 
-- name: test-func
-  image: golang
-  commands:
-    - go test
+  - name: test
+    image: golang
+    commands:
+      - go test
 
----
-kind: pipeline
-name: build
+  - name: compile
+    image: golang
+    commands:
+      - go build main.go
 
-workspace:
-    base: /go
-    path: src/github.com/saguywalker/go-with-drone
-    
-steps:
-- name: compile
-  image: golang
-  commands:
-    - go build main.go
+  - name: commit
+    image: golang
+    commands:
+      - mkdir -p results
+      - ./main -commit=${DRONE_COMMIT_SHA} > results/output
+      - rm main
 
-depends_on:
-- test
-
----
-kind: pipeline
-name: deploy
-
-workspace:
-    base: /go
-    path: src/github.com/saguywalker/go-with-drone
-
-steps:
-- name: commit-output
-  image: golang
-  commands:
-    - mkdir -p results
-    - ./main -commit=${DRONE_COMMIT_SHA} > results/output
-    - rm $CI_PROJECT_DIR/main
-    - git add *
-    - git commit -m "[CI] Add output to master branch."
-    - git push origin HEAD:master
-
-- name: run
-  image: golang
-  commands:
-    - cat results/output
-
-depends_on:
-- build
+  - name: deploy
+    image: golang
+    commands:
+      - cat results/output
