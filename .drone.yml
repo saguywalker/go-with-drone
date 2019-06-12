@@ -30,6 +30,9 @@ steps:
   image: golang
   commands:
     - go build main.go
+    - git add main
+    - git commit -m "Commit main"
+    - git push
 
 depends_on:
 - test
@@ -49,7 +52,7 @@ steps:
     - mkdir -p results
     - ls -la
     - ./main -commit=${DRONE_COMMIT_SHA} > results/output
-    - rm $CI_PROJECT_DIR/main
+    - git rm main
     - git add *
     - git commit -m "[CI] Add output to master branch."
     - git push origin HEAD:master
