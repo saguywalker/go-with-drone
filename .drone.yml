@@ -1,59 +1,35 @@
 kind: pipeline
 name: test
 
-platform:
-  os: linux
-  arch: amd64
+workspace:
+    base: /go
+    path: src/github.com/saguywalker/go-with-drone
 
 steps:
 - name: format
   image: golang
   commands:
-  - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
-  - eval $(ssh-agent -s)
-  - mkdir -p ~/.ssh
-  - "echo \"$GIT_SSH_KEY\" | ssh-add -"
-  - "echo -e \"Host *\\n\\tStrictHostKeyChecking no\\n\\n\" > ~/.ssh/config"
-  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-  - cd $GOPATH/src/$REPO_NAME
-  - "go fmt $(go list ./... | grep -v /vendor/)"
-  - "go vet $(go list ./... | grep -v /vendor/)"
+    - go fmt $(go list ./... | grep -v /vendor/)
+    - go vet $(go list ./... | grep -v /vendor/)
 
 - name: test-func
   image: golang
   commands:
-  - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
-  - eval $(ssh-agent -s)
-  - mkdir -p ~/.ssh
-  - "echo \"$GIT_SSH_KEY\" | ssh-add -"
-  - "echo -e \"Host *\\n\\tStrictHostKeyChecking no\\n\\n\" > ~/.ssh/config"
-  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-  - cd $GOPATH/src/$REPO_NAME
-  - go test
+    - go test
 
 ---
 kind: pipeline
 name: build
 
-platform:
-  os: linux
-  arch: amd64
-
+workspace:
+    base: /go
+    path: src/github.com/saguywalker/go-with-drone
+    
 steps:
 - name: compile
   image: golang
   commands:
-  - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
-  - eval $(ssh-agent -s)
-  - mkdir -p ~/.ssh
-  - "echo \"$GIT_SSH_KEY\" | ssh-add -"
-  - "echo -e \"Host *\\n\\tStrictHostKeyChecking no\\n\\n\" > ~/.ssh/config"
-  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-  - cd $GOPATH/src/$REPO_NAME
-  - go build main.go
+    - go build main.go
 
 depends_on:
 - test
@@ -70,37 +46,18 @@ steps:
 - name: commit-output
   image: golang
   commands:
-  - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
-  - eval $(ssh-agent -s)
-  - mkdir -p ~/.ssh
-  - "echo \"$GIT_SSH_KEY\" | ssh-add -"
-  - "echo -e \"Host *\\n\\tStrictHostKeyChecking no\\n\\n\" > ~/.ssh/config"
-  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-  - cd $GOPATH/src/$REPO_NAME
-  - "git config --global user.email \"$GITLAB_USER_EMAIL\""
-  - "git config --global user.name \"$GITLAB_USER_ID\""
-  - "git remote set-url --push origin git@gitlab.com:saguywalker/go-with-ci.git"
-  - git pull origin master
-  - mkdir -p results
-  - "$CI_PROJECT_DIR/main -commit=${CI_COMMIT_SHORT_SHA} > results/output"
-  - rm $CI_PROJECT_DIR/main
-  - "git add *"
-  - "git commit -m '[CI] Add output to master branch.'"
-  - git push origin HEAD:master
+    - git pull origin master
+    - mkdir -p results
+    - ./main -commit=${DRONE_COMMIT_SHA} > results/output
+    - rm $CI_PROJECT_DIR/main
+    - git add *
+    - git commit -m "[CI] Add output to master branch."
+    - git push origin HEAD:master
 
 - name: run
   image: golang
   commands:
-  - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
-  - eval $(ssh-agent -s)
-  - mkdir -p ~/.ssh
-  - "echo \"$GIT_SSH_KEY\" | ssh-add -"
-  - "echo -e \"Host *\\n\\tStrictHostKeyChecking no\\n\\n\" > ~/.ssh/config"
-  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
-  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
-  - cd $GOPATH/src/$REPO_NAME
-  - cat results/output
+    - cat results/output
 
 depends_on:
 - build
