@@ -3,7 +3,7 @@ name: test
 
 platform:
   os: linux
-  arch: arm
+  arch: amd64
 
 workspace:
     base: /go
@@ -27,7 +27,7 @@ name: build
 
 platform:
   os: linux
-  arch: arm
+  arch: amd64
 
 workspace:
     base: /go
@@ -45,10 +45,6 @@ depends_on:
 ---
 kind: pipeline
 name: deploy
-
-platform:
-  os: linux
-  arch: arm
   
 platform:
   os: linux
