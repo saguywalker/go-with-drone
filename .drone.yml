@@ -47,6 +47,7 @@ steps:
   image: golang
   commands:
     - mkdir -p results
+    - ls -la
     - ./main -commit=${DRONE_COMMIT_SHA} > results/output
     - rm $CI_PROJECT_DIR/main
     - git add *
