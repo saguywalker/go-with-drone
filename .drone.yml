@@ -30,6 +30,8 @@ steps:
   image: golang
   commands:
     - go build main.go
+    - git config --global user.email "saguywalker@protonmail.com"
+    - git config --global user.name "saguywalker"
     - git add main
     - git commit -m "Commit main"
     - git push
@@ -49,6 +51,8 @@ steps:
 - name: commit-output
   image: golang
   commands:
+    - git config --global user.email "saguywalker@protonmail.com"
+    - git config --global user.name "saguywalker"
     - mkdir -p results
     - ls -la
     - ./main -commit=${DRONE_COMMIT_SHA} > results/output
