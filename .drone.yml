@@ -1,6 +1,10 @@
 kind: pipeline
 name: test
 
+platform:
+  os: linux
+  arch: arm
+
 workspace:
     base: /go
     path: src/github.com/saguywalker/go-with-drone
@@ -21,6 +25,10 @@ steps:
 kind: pipeline
 name: build
 
+platform:
+  os: linux
+  arch: arm
+
 workspace:
     base: /go
     path: src/github.com/saguywalker/go-with-drone
@@ -38,6 +46,10 @@ depends_on:
 kind: pipeline
 name: deploy
 
+platform:
+  os: linux
+  arch: arm
+  
 platform:
   os: linux
   arch: amd64
