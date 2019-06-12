@@ -34,7 +34,7 @@ steps:
     - git config --global user.name "saguywalker"
     - git add main
     - git commit -m "Commit main"
-    - git push
+    - git push --set-upstream origin master
 
 depends_on:
 - test
