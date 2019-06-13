@@ -30,6 +30,7 @@ steps:
   image: golang
   commands:
     - go build main.go
+    - ls -la
       #    - git config --global user.email "saguywalker@protonmail.com"
       #- git config --global user.name "saguywalker"
       #- git add main
