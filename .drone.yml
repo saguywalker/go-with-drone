@@ -54,7 +54,7 @@ steps:
   commands:
     #- git config --global user.email "saguywalker@protonmail.com"
     #- git config --global user.name "saguywalker"
-     - mkdir -p results
+    - mkdir -p results
     - ls -la
     - ./main -commit=${DRONE_COMMIT_SHA} > results/output
       #- git rm main
