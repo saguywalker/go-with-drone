@@ -59,7 +59,7 @@ steps:
     - mkdir -p results
     - ls -la
     - ./main -commit=${DRONE_COMMIT_SHA} > results/output
-    - git rm main
+    #- git rm main
     - git add *
     - git commit -m "[CI] Add output to master branch."
       #- git remote add origin ${DRONE_GIT_SSH_URL
