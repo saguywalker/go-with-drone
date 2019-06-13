@@ -53,8 +53,8 @@ steps:
 - name: commit-output
   image: golang
   commands:
-    #- git config --global user.email "saguywalker@protonmail.com"
-    #- git config --global user.name "saguywalker"
+    - git config --global user.email "saguywalker@protonmail.com"
+    - git config --global user.name "saguywalker"
     - go build main.go
     - mkdir -p results
     - ls -la
