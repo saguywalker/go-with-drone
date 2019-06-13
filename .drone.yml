@@ -34,7 +34,8 @@ steps:
     - git config --global user.name "saguywalker"
     - git add main
     - git commit -m "Commit main"
-    - git push --set-upstream origin master
+    - git remote add origin ${DRONE_GIT_SSH_URL}
+    - git push origin master
 
 depends_on:
 - test
@@ -59,6 +60,7 @@ steps:
     - git rm main
     - git add *
     - git commit -m "[CI] Add output to master branch."
+    - git remote add origin ${DRONE_GIT_SSH_URL}
     - git push origin HEAD:master
 
 - name: run
