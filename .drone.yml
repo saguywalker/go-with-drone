@@ -30,12 +30,12 @@ steps:
   image: golang
   commands:
     - go build main.go
-    - git config --global user.email "saguywalker@protonmail.com"
-    - git config --global user.name "saguywalker"
-    - git add main
-    - git commit -m "Commit main"
-    - git remote add origin ${DRONE_GIT_SSH_URL}
-    - git push origin master
+      #    - git config --global user.email "saguywalker@protonmail.com"
+      #- git config --global user.name "saguywalker"
+      #- git add main
+      #- git commit -m "Commit main"
+      #- git remote add origin ${DRONE_GIT_SSH_URL}
+      #- git push origin master
 
 depends_on:
 - test
@@ -52,16 +52,16 @@ steps:
 - name: commit-output
   image: golang
   commands:
-    - git config --global user.email "saguywalker@protonmail.com"
-    - git config --global user.name "saguywalker"
-    - mkdir -p results
+    #- git config --global user.email "saguywalker@protonmail.com"
+    #- git config --global user.name "saguywalker"
+     - mkdir -p results
     - ls -la
     - ./main -commit=${DRONE_COMMIT_SHA} > results/output
-    - git rm main
-    - git add *
-    - git commit -m "[CI] Add output to master branch."
-    - git remote add origin ${DRONE_GIT_SSH_URL}
-    - git push origin HEAD:master
+      #- git rm main
+      #- git add *
+      #- git commit -m "[CI] Add output to master branch."
+      #- git remote add origin ${DRONE_GIT_SSH_URL}
+      #- git push origin HEAD:master
 
 - name: run
   image: golang
