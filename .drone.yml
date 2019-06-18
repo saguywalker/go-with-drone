@@ -31,12 +31,6 @@ steps:
   commands:
     - go build main.go
     - ls -la
-      #    - git config --global user.email "saguywalker@protonmail.com"
-      #- git config --global user.name "saguywalker"
-      #- git add main
-      #- git commit -m "Commit main"
-      #- git remote add origin ${DRONE_GIT_SSH_URL}
-      #- git push origin master
 
 depends_on:
 - test
