@@ -47,17 +47,10 @@ steps:
 - name: commit-output
   image: golang
   commands:
-    - git config --global user.email "guyguy252@gmail.com"
-    - git config --global user.name "saguywalker"
     - go build main.go
     - mkdir -p results
-    - ls -la
+    - ls -aR
     - ./main -commit=${DRONE_COMMIT_SHA} > results/output
-    #- git rm main
-    #- git add *
-    #- git commit -m "[CI] Add output to master branch."
-      #- git remote add origin ${DRONE_GIT_SSH_URL
-    #- git push origin HEAD:master
 
 - name: run
   image: golang
