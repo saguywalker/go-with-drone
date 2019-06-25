@@ -16,6 +16,7 @@ func main(){
     fmt.Printf("Result of %d**%d is %d \n", 5,5, Pow(5,5))
     fmt.Printf("Result of %d**%d is %d \n", 7,7, Pow(7,7))
     fmt.Printf("Result of %d**%d is %d \n", 32, 4, Pow(32,4))
+    fmt.Printf("Result of %d**%d is %d \n", 1, 500, Pow(1,500))
     fmt.Println(time.Now().Format("20060102150405"))
 }
 
