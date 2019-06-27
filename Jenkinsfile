@@ -7,8 +7,8 @@ pipeline{
     stages{
         stage('Format'){
             steps{
-                sh 'go fmt $(go list ./... | grep -v /vendor/)'
-                sh 'go vet $(ge list ./... | grep -v /vendor/)'
+                sh 'go fmt'
+                sh 'go vet'
             }
         }
         stage('Test'){
