@@ -29,7 +29,7 @@ pipeline{
             }
             post{
                 success{
-                    archiveArtifacts 'dist/go-with-drone'
+                    archiveArtifacts 'go-with-drone'
                 }
             }
         }
