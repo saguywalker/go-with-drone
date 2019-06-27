@@ -25,7 +25,7 @@ pipeline{
         stage('Run'){
             steps{
                 sh 'go build'
-                sh './go-with-drone=${GIT_COMMIT}'
+                sh './go-with-drone -commit=${GIT_COMMIT}'
             }
             post{
                 success{
